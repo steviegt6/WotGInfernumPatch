@@ -1,2 +1,11 @@
-# This file will automatically update with entries for new content after a build and reload.
+Items: {
+	NamelessDeityRelicInfernumItem: {
+		DisplayName: Infernal Nameless Deity Relic
+		Tooltip: ""
+	}
 
+	NoxusRelicInfernumItem: {
+		DisplayName: Infernal Avatar of Emptiness Relic
+		Tooltip: ""
+	}
+}

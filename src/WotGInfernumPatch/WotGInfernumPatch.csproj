@@ -2,4 +2,8 @@
 
     <Import Project="..\..\..\tModLoader.targets"/>
 
+    <ItemGroup>
+      <Reference Include="lib/**/*.dll" />
+    </ItemGroup>
+
 </Project>
