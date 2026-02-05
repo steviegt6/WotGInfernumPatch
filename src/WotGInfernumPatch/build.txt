@@ -1,3 +1,4 @@
 displayName = Wrath of the Gods Infrernum Patch
 author = tomat
-version = 0.1
+version = 1.0.0
+modReferences = NoxusBoss, InfernumMode

@@ -1,1 +1,1 @@
-Modify this file with a description of your mod.
+Somewhat tweaked AI for Avatar of Emptiness and Nameless Deity for Infernum. Also adds Infernum relics for them.
