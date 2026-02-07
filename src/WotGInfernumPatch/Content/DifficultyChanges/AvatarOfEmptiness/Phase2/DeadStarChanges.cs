@@ -1,5 +1,4 @@
-﻿using System;
-using System.Reflection;
+﻿using System.Reflection;
 using Microsoft.Xna.Framework;
 using MonoMod.Cil;
 using NoxusBoss.Content.NPCs.Bosses.Avatar.Projectiles;
