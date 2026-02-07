@@ -1,48 +1,27 @@
-﻿using System;
+﻿using CalamityMod;
 using InfernumMode.Content.Items.Relics;
 using InfernumMode.Content.Tiles.Relics;
 using NoxusBoss.Content.NPCs.Bosses.Avatar.SecondPhaseForm;
 using NoxusBoss.Content.NPCs.Bosses.NamelessDeity;
 using Terraria;
-using Terraria.GameContent.ItemDropRules;
 using Terraria.ModLoader;
 
 namespace WotGInfernumPatch.Content.Relics;
 
 internal sealed class RelicDropManager : GlobalNPC
 {
-    private sealed class LambdaDropRuleCondition(Func<DropAttemptInfo, bool> callback) : IItemDropRuleCondition
-    {
-        public string GetConditionDescription()
-        {
-            return null;
-        }
-
-        public bool CanDrop(DropAttemptInfo info)
-        {
-            return callback(info);
-        }
-
-        public bool CanShowItemDropInUI()
-        {
-            return true;
-        }
-    }
-
     public override void ModifyNPCLoot(NPC npc, NPCLoot npcLoot)
     {
         base.ModifyNPCLoot(npc, npcLoot);
 
-        var infernumEnabled = new LambdaDropRuleCondition(_ => InfernumMode.InfernumMode.CanUseCustomAIs);
-
         if (npc.type == ModContent.NPCType<NamelessDeityBoss>())
         {
-            npcLoot.Add(ItemDropRule.ByCondition(infernumEnabled, ModContent.ItemType<NamelessDeityRelicInfernumItem>()));
+            npcLoot.AddIf(_ => InfernumMode.InfernumMode.CanUseCustomAIs, ModContent.ItemType<NamelessDeityRelicInfernumItem>());
         }
         
         if (npc.type == ModContent.NPCType<AvatarOfEmptiness>())
         {
-            npcLoot.Add(ItemDropRule.ByCondition(infernumEnabled, ModContent.ItemType<NoxusRelicInfernumItem>()));
+            npcLoot.AddIf(_ => InfernumMode.InfernumMode.CanUseCustomAIs, ModContent.ItemType<NoxusRelicInfernumItem>());
         }
     }
 }
