@@ -13,6 +13,8 @@ namespace WotGInfernumPatch.Content.DifficultyChanges.AvatarOfEmptiness.Phase3;
 internal sealed class WhirlingIceStormChanges : ModSystem
 {
     public static float InitialArcticBlastMultiplier => InfernumMode.InfernumMode.CanUseCustomAIs ? 1.5f : 1f;
+
+    public static float BlastReleaseRateMultiplier => InfernumMode.InfernumMode.CanUseCustomAIs ? 1.75f : 1f;
     
     public override void Load()
     {
@@ -28,6 +30,11 @@ internal sealed class WhirlingIceStormChanges : ModSystem
         MonoModHooks.Add(
             typeof(ArcticBlast).GetMethod(nameof(ArcticBlast.SpinAround), BindingFlags.Public | BindingFlags.Static)!,
             SpinAround_Faster
+        );
+
+        MonoModHooks.Modify(
+            typeof(Avatar).GetMethod(nameof(Avatar.DoBehavior_WhirlingIceStorm), BindingFlags.Public | BindingFlags.Instance)!,
+            SpawnArcticBlastsMoreFrequently
         );
     }
 
@@ -56,5 +63,15 @@ internal sealed class WhirlingIceStormChanges : ModSystem
         var spinArc = MathHelper.Pi * spinCompletion * 4f;
         zPosition = Utilities.Saturate(Utilities.Cos01(spinArc)).Cubed() * 3f;
         return spinArc.ToRotationVector2() * new Vector2(maxHorizontalSpeed * horizontalSpinDirection, 5f);
+    }
+
+    private static void SpawnArcticBlastsMoreFrequently(ILContext il)
+    {
+        var c = new ILCursor(il);
+        
+        c.GotoNext(MoveType.After, x => x.MatchCall<Avatar>($"get_{nameof(Avatar.WhirlingIceStorm_BlastReleaseRate)}"));
+        c.EmitDelegate(
+            (int blastReleaseRate) => (int)(blastReleaseRate * BlastReleaseRateMultiplier)
+        );
     }
 }
