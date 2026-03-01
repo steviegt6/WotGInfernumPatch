@@ -9,9 +9,9 @@ namespace WotGInfernumPatch.Content.DifficultyChanges.AvatarOfEmptiness.Phase2;
 
 internal sealed class DeadStarChanges : ModSystem
 {
-    public static int MaxBurstCountMultiplier => InfernumMode.InfernumMode.CanUseCustomAIs ? 2 : 1;
+    public static float MaxBurstCountMultiplier => InfernumMode.InfernumMode.CanUseCustomAIs ? 1.75f : 1f;
 
-    public static int RealMaxBurstCount => DeadStar.MaxBurstCount * MaxBurstCountMultiplier;
+    public static int RealMaxBurstCount => (int)(DeadStar.MaxBurstCount * MaxBurstCountMultiplier);
 
     public static float TelegraphMultiplierStart => 0.9f;
 
