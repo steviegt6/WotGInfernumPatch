@@ -11,7 +11,7 @@ internal sealed class OtherworldlyThornsChanges : ModSystem
 {
     public static int TeleportDelay => InfernumMode.InfernumMode.CanUseCustomAIs ? 25 : 30;
 
-    public static int PortalSummonTime => InfernumMode.InfernumMode.CanUseCustomAIs ? 45 : 60;
+    public static int PortalSummonTime => InfernumMode.InfernumMode.CanUseCustomAIs ? 75 : 60;
 
     public static float ThornReachTelegraphTimeReductionMultiplier => InfernumMode.InfernumMode.CanUseCustomAIs ? 0.75f : 1f;
 
@@ -21,7 +21,7 @@ internal sealed class OtherworldlyThornsChanges : ModSystem
 
         MonoModHooks.Modify(
             typeof(AvatarRift).GetMethod(nameof(AvatarRift.DoBehavior_ReleaseOtherworldlyThorns), BindingFlags.Public | BindingFlags.Instance)!,
-            FasterOtherworldlyThornsInitiation
+            SpawnMoreOtherworldlyThornsFaster
         );
 
         MonoModHooks.Modify(
@@ -30,7 +30,7 @@ internal sealed class OtherworldlyThornsChanges : ModSystem
         );
     }
 
-    private static void FasterOtherworldlyThornsInitiation(ILContext il)
+    private static void SpawnMoreOtherworldlyThornsFaster(ILContext il)
     {
         var c = new ILCursor(il);
 
