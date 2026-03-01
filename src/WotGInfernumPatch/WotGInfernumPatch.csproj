@@ -6,8 +6,4 @@
       <Reference Include="lib/**/*.dll" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Content\DifficultyChanges\AvatarOfEmptiness\Phase3\VisceralUniverse\" />
-    </ItemGroup>
-
 </Project>
