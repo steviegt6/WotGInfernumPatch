@@ -9,7 +9,7 @@ internal sealed class WorldSmashChanges : ModSystem
 {
     public static int AdditivePlanetoidSmashCount => InfernumMode.InfernumMode.CanUseCustomAIs ? 2 : 0;
 
-    public static float PlanetoidFlingSpeedMultiplier => InfernumMode.InfernumMode.CanUseCustomAIs ? 1.85f : 1f;
+    public static float PlanetoidFlingSpeedMultiplier => InfernumMode.InfernumMode.CanUseCustomAIs ? 1.45f : 1f;
 
     public override void Load()
     {
