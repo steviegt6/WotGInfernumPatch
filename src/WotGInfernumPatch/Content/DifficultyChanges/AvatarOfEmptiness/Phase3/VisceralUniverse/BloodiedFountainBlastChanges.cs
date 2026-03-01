@@ -9,9 +9,11 @@ using Avatar = NoxusBoss.Content.NPCs.Bosses.Avatar.SecondPhaseForm.AvatarOfEmpt
 
 namespace WotGInfernumPatch.Content.DifficultyChanges.AvatarOfEmptiness.Phase3;
 
-internal sealed class UnclogChanges : ModSystem
+internal sealed class BloodiedFountainBlastChanges : ModSystem
 {
-    public static float BlobSpawnRateMultiplier => InfernumMode.InfernumMode.CanUseCustomAIs ? 1.75f : 1f;
+    public static int OverriddenBloodReleaseRate => 2;
+
+    // public static float GetUnderSolynGracePeriodReductionMultiplier => InfernumMode.InfernumMode.CanUseCustomAIs ? 0.85f : 1f;
 
     public static float BlobSpawnVelocityMultiplier => InfernumMode.InfernumMode.CanUseCustomAIs ? 2f : 1f;
 
@@ -20,21 +22,32 @@ internal sealed class UnclogChanges : ModSystem
         base.Load();
 
         MonoModHooks.Modify(
-            typeof(Avatar).GetMethod(nameof(Avatar.DoBehavior_Unclog), BindingFlags.Public | BindingFlags.Instance)!,
-            Unclog_SpawnMoreBlobs
+            typeof(Avatar).GetMethod(nameof(Avatar.DoBehavior_BloodiedFountainBlasts), BindingFlags.Public | BindingFlags.Instance)!,
+            BloodiedFountainBlasts_MoreAggressiveBloodBlobs
+        );
+
+        MonoModHooks.Modify(
+            typeof(Avatar).GetMethod(nameof(Avatar.DoBehavior_BloodiedFountainBlasts), BindingFlags.Public | BindingFlags.Instance)!,
+            FasterBloodBlobs
+        );
+
+        MonoModHooks.Modify(
+            typeof(Avatar).GetMethod(nameof(Avatar.DoBehavior_BloodiedFountainBlasts_DenseBurst_CreateProjectilesNearSolyn), BindingFlags.Public | BindingFlags.Instance)!,
+            FasterBloodBlobs
         );
     }
 
-    private static void Unclog_SpawnMoreBlobs(ILContext il)
+    private static void BloodiedFountainBlasts_MoreAggressiveBloodBlobs(ILContext il)
     {
         var c = new ILCursor(il);
 
-        // Make them spawn more frequently.
-        c.GotoNext(MoveType.After, x => x.MatchCall<Avatar>($"get_{nameof(Avatar.Unclog_BlobSpawnRate)}"));
-        c.EmitDelegate((int blobSpawnRate) => (int)(blobSpawnRate * BlobSpawnRateMultiplier));
+        c.GotoNext(MoveType.After, x => x.MatchCall<Avatar>($"get_{nameof(Avatar.BloodiedFountainBlasts_BloodReleaseRate)}"));
+        c.EmitDelegate((int bloodReleaseRate) => InfernumMode.InfernumMode.CanUseCustomAIs ? OverriddenBloodReleaseRate : bloodReleaseRate);
+    }
 
-        // Increase their initial velocity.
-        c.Index = 0;
+    private static void FasterBloodBlobs(ILContext il)
+    {
+        var c = new ILCursor(il);
 
         while (c.TryGotoNext(MoveType.Before, x => x.MatchCall(typeof(Utilities), nameof(Utilities.NewProjectileBetter))))
         {
