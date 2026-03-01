@@ -14,9 +14,9 @@ internal sealed class WhirlingIceStormChanges : ModSystem
 {
     public static float InitialArcticBlastMultiplier => InfernumMode.InfernumMode.CanUseCustomAIs ? 1.5f : 1f;
 
-    public static float BlastReleaseRateMultiplier => 1f; /*InfernumMode.InfernumMode.CanUseCustomAIs ? 0.33f : 1f;*/
+    public static float BlastReleaseRateMultiplier => InfernumMode.InfernumMode.CanUseCustomAIs ? 0.67f : 1f;
 
-    public static float FrostColumnReleaseRateMultiplier => InfernumMode.InfernumMode.CanUseCustomAIs ? 0.75f : 1f;
+    public static float FrostColumnReleaseRateMultiplier => InfernumMode.InfernumMode.CanUseCustomAIs ? 0.55f : 1f;
 
     public override void Load()
     {
